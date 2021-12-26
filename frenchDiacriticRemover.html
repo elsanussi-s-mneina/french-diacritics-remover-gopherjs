@@ -1,0 +1,27 @@
+<html>
+	<head>
+		<title>French diacritic remover</title>
+	</head>
+	<body>
+		<h1> French diacritics remover utility</h1>
+
+<label for="with"><h2>Input: French with Diacritics</span></h2></label>
+		<textarea placeholder="Type text here" id="with" rows="4" cols="100" lang="fr" aria-live="assertive"></textarea>
+		<h2> Actions</h2>
+		<input type="button" value="Remove French Diacritics"
+onclick="document.getElementById('without').value = frenchD.removeDiacritics(document.getElementById('with').value)" />
+
+<label for="without"><h2>Output: French without Diacritics</span></h2></label>
+		<textarea id="without" placeholder="Result will appear here." rows="4" cols="100" lang="fr" aria-live="assertive" ></textarea>
+
+<footer>
+<div>
+	<a href="youtube.com/GrassDewMorining">My Youtube Channel: GrassDewMorning</a>
+	Version 1.00, December 26, 2021
+</div>
+</footer>
+
+		<script src="frenchDiacritics.js"></script>
+
+	</body>
+</html>
