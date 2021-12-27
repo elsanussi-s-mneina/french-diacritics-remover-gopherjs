@@ -6,6 +6,51 @@ import (
 	"syscall/js"
 )
 
+var replacements = [][2]string{
+	{"é", "e"},
+	{"è", "e"},
+	{"ê", "e"},
+	{"ë", "e"},
+	{"É", "E"},
+	{"È", "E"},
+	{"Ê", "E"},
+	{"Ë", "E"},
+	{"á", "a"},
+	{"à", "a"},
+	{"â", "a"},
+	{"ä", "a"},
+	{"Á", "A"},
+	{"À", "A"},
+	{"Â", "A"},
+	{"Ä", "A"},
+	{"í", "i"},
+	{"ì", "i"},
+	{"î", "i"},
+	{"ï", "i"},
+	{"Í", "I"},
+	{"Ì", "I"},
+	{"Î", "I"},
+	{"Ï", "I"},
+	{"ó", "o"},
+	{"ò", "o"},
+	{"ô", "o"},
+	{"ö", "o"},
+	{"Ó", "O"},
+	{"Ò", "O"},
+	{"Ô", "O"},
+	{"Ö", "O"},
+	{"ú", "u"},
+	{"ù", "u"},
+	{"û", "u"},
+	{"ü", "u"},
+	{"Ú", "U"},
+	{"Ù", "U"},
+	{"Û", "U"},
+	{"Ü", "U"},
+	{"ç", "c"},
+	{"Ç", "C"},
+}
+
 // exportRemoveDiacritics allows the RemoveDiacritics function to be called
 // by Javascript code.
 // This function must be called once in the Go source code (in the main function), in order for the
@@ -25,54 +70,9 @@ func RemoveDiacritics(frenchText string) string {
 	var result string
 
 	result = frenchText
-	result = strings.ReplaceAll(result, "é", "e")
-	result = strings.ReplaceAll(result, "è", "e")
-	result = strings.ReplaceAll(result, "ê", "e")
-	result = strings.ReplaceAll(result, "ë", "e")
-	result = strings.ReplaceAll(result, "É", "E")
-	result = strings.ReplaceAll(result, "È", "E")
-	result = strings.ReplaceAll(result, "Ê", "E")
-	result = strings.ReplaceAll(result, "Ë", "E")
-
-	result = strings.ReplaceAll(result, "á", "a")
-	result = strings.ReplaceAll(result, "à", "a")
-	result = strings.ReplaceAll(result, "â", "a")
-	result = strings.ReplaceAll(result, "ä", "a")
-	result = strings.ReplaceAll(result, "Á", "A")
-	result = strings.ReplaceAll(result, "À", "A")
-	result = strings.ReplaceAll(result, "Â", "A")
-	result = strings.ReplaceAll(result, "Ä", "A")
-
-	result = strings.ReplaceAll(result, "í", "i")
-	result = strings.ReplaceAll(result, "ì", "i")
-	result = strings.ReplaceAll(result, "î", "i")
-	result = strings.ReplaceAll(result, "ï", "i")
-	result = strings.ReplaceAll(result, "Í", "I")
-	result = strings.ReplaceAll(result, "Ì", "I")
-	result = strings.ReplaceAll(result, "Î", "I")
-	result = strings.ReplaceAll(result, "Ï", "I")
-
-	result = strings.ReplaceAll(result, "ó", "o")
-	result = strings.ReplaceAll(result, "ò", "o")
-	result = strings.ReplaceAll(result, "ô", "o")
-	result = strings.ReplaceAll(result, "ö", "o")
-	result = strings.ReplaceAll(result, "Ó", "O")
-	result = strings.ReplaceAll(result, "Ò", "O")
-	result = strings.ReplaceAll(result, "Ô", "O")
-	result = strings.ReplaceAll(result, "Ö", "O")
-
-	result = strings.ReplaceAll(result, "ú", "u")
-	result = strings.ReplaceAll(result, "ù", "u")
-	result = strings.ReplaceAll(result, "û", "u")
-	result = strings.ReplaceAll(result, "ü", "u")
-	result = strings.ReplaceAll(result, "Ú", "U")
-	result = strings.ReplaceAll(result, "Ù", "U")
-	result = strings.ReplaceAll(result, "Û", "U")
-	result = strings.ReplaceAll(result, "Ü", "U")
-
-	result = strings.ReplaceAll(result, "ç", "c")
-	result = strings.ReplaceAll(result, "Ç", "C")
-
+	for _, replacement := range replacements {
+		result = strings.ReplaceAll(result, replacement[0], replacement[1])
+	}
 	return result
 }
 
@@ -88,14 +88,15 @@ func testRemoveDiacritics() {
 
 }
 
-func testRemoveDiacriticsCase(input, expected string) {	
+func testRemoveDiacriticsCase(input, expected string) {
 	input = "áÁéÉÍíóÓÚú"
 	expected = "aAeEIioOUu"
 	var actual string
 	actual = RemoveDiacritics(input)
 	if actual != expected {
-		fmt.Printf("Test failed, expected: %s, actual %s", 
-expected, actual)
+		fmt.Printf("Test failed, expected: %s, actual %s",
+			expected, actual)
 		panic("Something is not working")
 	}
 }
+
