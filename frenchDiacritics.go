@@ -6,11 +6,21 @@ import (
 	"syscall/js"
 )
 
+// exportRemoveDiacritics allows the RemoveDiacritics function to be called
+// by Javascript code.
+// This function must be called once in the Go source code (in the main function), in order for the
+// RemoveDiacritics function to be accessible from Javascript.
+//
+// In the Javascript code, call the RemoveDiacritics function thus:
+// frenchD.removeDiacritics("Où")
 func exportRemoveDiacritics() {
-
 	js.Global().Set("frenchD", map[string]interface{}{"removeDiacritics": RemoveDiacritics})
 }
 
+// RemoveDiacritics takes text in the French language
+// and returns similar text but without the diacritics
+// (the diacritics are circumflex, acute, grave accents, and diareses; and cedilla)
+// For example: "éÉàç" becomes "eEac"
 func RemoveDiacritics(frenchText string) string {
 	var result string
 
