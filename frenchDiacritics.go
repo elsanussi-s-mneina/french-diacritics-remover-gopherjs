@@ -79,4 +79,23 @@ func RemoveDiacritics(frenchText string) string {
 func main() {
 	fmt.Println("Removing French Diacritics program")
 	exportRemoveDiacritics()
+	testRemoveDiacritics()
+}
+
+func testRemoveDiacritics() {
+	testRemoveDiacriticsCase("áÁéÉÍíóÓÚú", "aAeEIioOUu")
+	testRemoveDiacriticsCase("ça où", "ca ou")
+
+}
+
+func testRemoveDiacriticsCase(input, expected string) {	
+	input = "áÁéÉÍíóÓÚú"
+	expected = "aAeEIioOUu"
+	var actual string
+	actual = RemoveDiacritics(input)
+	if actual != expected {
+		fmt.Printf("Test failed, expected: %s, actual %s", 
+expected, actual)
+		panic("Something is not working")
+	}
 }
